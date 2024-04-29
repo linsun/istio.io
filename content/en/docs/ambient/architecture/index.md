@@ -13,11 +13,11 @@ test: n/a
 
 In {{< gloss "ambient" >}}ambient mode{{< /gloss >}}, workloads can fall into 3 categories:
 1. **Uncaptured:** this is a standard pod without any mesh features enabled.
-1. **Captured:** this is a pod that has traffic intercepted by {{< gloss >}}ztunnel{{< /gloss >}}. Pods can be captured by setting the `istio.io/dataplane-mode=ambient` label on a namespace.
+1. **Captured:** this is a pod that has traffic intercepted by {{< gloss >}}ztunnel{{< /gloss >}}. A pod's catpured mode can be enabled by setting the `istio.io/dataplane-mode=ambient` label on its namespace, which enables all pods' captured mode for that namespace.
 1. **Waypoint enabled:** this is a pod that is "Captured" *and* has a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} deployed.
-  A waypoint will, by default, apply to all pods in the same namespace.
-  It can optionally be set to apply to only a specific service account with the `istio.io/for-service-account` annotation on the `Gateway`.
-  If there is both a namespace waypoint and service account waypoint, the service account waypoint takes precedence.
+  If a namespace is labelled with `istio.io/use-waypoint` with its default waypoint (for example `istio.io/use-waypoint: waypoint`), the waypoint will apply to all pods in the namespace.
+  The `istio.io/use-waypoint` label can optionally be set to apply to only a specific service or workload with its desired waypoint (for example, `istio.io/use-waypoint: my-waypoint`).
+  If the `istio.io/use-waypoint` label exists on both the namespace and service or workload, the workload waypoint takes precedence over the service waypoint, which takes precedence over the namespace waypoint.
 
 Depending on which category a workload is in, the request path will be different.
 
